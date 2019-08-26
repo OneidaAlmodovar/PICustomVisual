@@ -1,0 +1,17 @@
+{
+    "version": "1.0.0",
+    "author": {"name":"Oneida Almodovar","email":"sperez35@slb.com"},
+    "resources": [
+        {
+            "resourceId": "rId0",
+            "sourceType": 5,
+            "file": "resources/fDGSLB6CD030FDBC7C490BA5DC94C53F1597FA.pbiviz.json"
+        }
+    ],
+    "visual": {"name":"Custom Relationship VCT Project","displayName":"VCT Custom Relationship","guid":"fDGSLB6CD030FDBC7C490BA5DC94C53F1597FA","visualClassName":"Visual","version":"1.0.0","description":"VCT Custom Relationship","supportUrl":"https://slb-it.visualstudio.com/es-business-intelligence-studio/_git/BIS00621%20-%20VCT%20Executive%20Dashboard%20-%20Azure%20Migration","gitHubUrl":"https://slb-it.visualstudio.com/es-business-intelligence-studio/_git/BIS00621%20-%20VCT%20Executive%20Dashboard%20-%20Azure%20Migration"},
+    "metadata": {
+        "pbivizjson": {
+            "resourceId": "rId0"
+        }
+    }  
+}

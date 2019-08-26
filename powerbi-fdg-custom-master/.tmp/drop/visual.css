@@ -1,0 +1,32 @@
+p {
+  font-size: 20px;
+  font-weight: bold;
+}
+p em {
+  background: yellow;
+  padding: 5px;
+}
+.node {
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
+.link {
+  fill: none;
+}
+div.tooltip {
+  position: absolute;
+  text-align: center;
+  width: 200px;
+  padding: 2px;
+  font: 11px sans-serif;
+  background: lightyellow;
+  border: 3px;
+  border-radius: 8px;
+  pointer-events: none;
+  border-width: 1.5px;
+  border-style: solid;
+  border-color: #666666;
+}
+
+
+/*# sourceMappingURL=visual.css.map*/
