@@ -33,12 +33,12 @@ export declare class Visual implements IVisual {
     private selectionManager;
     private selectionIdBuilder;
     private static ClassName;
-    private getUniqueValues;
     constructor(options: VisualConstructorOptions);
     update(options: VisualUpdateOptions): void;
     private reset;
     /** Parse function, check settings and return visual settings appropiate */
     private static parseSettings;
+    private static getUniqueValues;
     static converter(options: VisualUpdateOptions, host: IVisualHost): Relationship[];
     /**
      * This function gets called for each of the objects defined in the capabilities files and allows you to select which of the

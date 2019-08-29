@@ -23,7 +23,7 @@ export class Link implements d3.SimulationLinkDatum<Node> {
 
 
     var kopColors = {
-      "Logistics Management": "red",
+      /*"Logistics Management": "red",
       "Investment and Project Management": "blue",
       "Procure to Pay": "orange",
       "Financial Accounting to Reporting": "green",
@@ -39,6 +39,24 @@ export class Link implements d3.SimulationLinkDatum<Node> {
       "Asset Management": "darkgreen",
       "Operational Financial Planning": "lightgreen",
       "Product and Service Delivery": "#9cc",
+      "Integrity Management": "#999",
+      "Integration Project Management": "#66f"*/
+      "Logistics Management": "red",
+      "Investment and Project Management": "blue",
+      "Procure to Pay": "orange",
+      "Financial Accounting to Reporting": "green",
+      "Inventory Management and Distribution": "#8177B7",
+      "Supply Planning": "cyan",
+      "M&S Management and Distribution": "#8177B7",
+      "Warehouse Management": "blue",
+      "Source to Contract": "red",
+      "Sales Planning": "#009FC2",
+      "Workforce Development and Engagement": "#8DBE50",
+      "Workforce Planning and Productivity": "#8177B7",
+      "Asset Maintenance and Sustaining": "#008D7F",
+      "Asset Management": "#8177B7",
+      "Operational Financial Planning": "#8177B7",
+      "Product and Service Delivery": "#F6871F",
       "Integrity Management": "#999",
       "Integration Project Management": "#66f"
 

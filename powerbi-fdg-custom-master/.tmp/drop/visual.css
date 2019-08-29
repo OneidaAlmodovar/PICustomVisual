@@ -10,16 +10,14 @@ p em {
   stroke: #fff;
   stroke-width: 1.5px;
 }
-.link {
-  fill: none;
-}
 div.tooltip {
   position: absolute;
   text-align: center;
   width: 200px;
   padding: 2px;
-  font: 11px sans-serif;
-  background: lightyellow;
+  font: 11px Tahoma;
+  color: white;
+  background: #333333;
   border: 3px;
   border-radius: 8px;
   pointer-events: none;

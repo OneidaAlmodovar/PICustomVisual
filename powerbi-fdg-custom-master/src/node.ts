@@ -21,10 +21,6 @@ export class Node implements d3.SimulationNodeDatum {
   func: Array<string>;
   scale: number;
 
-  //addFunc(func) {
-  //  this.func.push(func);
- // }
-
   constructor(name, lvl, selectionId, branch, func) {
     this.name = name;
     this.lvl = lvl;

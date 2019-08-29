@@ -80,10 +80,10 @@ export class Visual implements IVisual
     private static ClassName: string = "slbrelationship";
 
     //Function to return only unique values in Array
-    private getUniqueValues(value, index, self) 
+    /*private getUniqueValues(value, index, self) 
     {
         return self.indexOf(value) === index;
-    }
+    }*/
 
     //constructor method
     constructor(options: VisualConstructorOptions) 
@@ -111,7 +111,7 @@ export class Visual implements IVisual
 
         //Zoom function for svg element
         this.svg.call(d3.zoom()
-            .extent([[0, 0], [600, 600]])
+            .extent([[0, 0], [2000, 2000]])
             .scaleExtent([.1, 12])
             .on("zoom", zoomed));
 
@@ -148,18 +148,18 @@ export class Visual implements IVisual
             "Investment and Project Management": "blue",
             "Procure to Pay": "orange",
             "Financial Accounting to Reporting": "green",
-            "Inventory Management and Distribution": "yellow",
+            "Inventory Management and Distribution": "#8177B7",
             "Supply Planning": "cyan",
-            "M&S Management and Distribution": "black",
+            "M&S Management and Distribution": "#8177B7",
             "Warehouse Management": "blue",
             "Source to Contract": "red",
-            "Sales Planning": "brown",
-            "Workforce Development and Engagement": "tan",
-            "Workforce Planning and Productivity": "darkblue",
-            "Asset Maintenance and Sustaining": "lightblue",
-            "Asset Management": "darkgreen",
-            "Operational Financial Planning": "lightgreen",
-            "Product and Service Delivery": "#9cc",
+            "Sales Planning": "#009FC2",
+            "Workforce Development and Engagement": "#8DBE50",
+            "Workforce Planning and Productivity": "#8177B7",
+            "Asset Maintenance and Sustaining": "#008D7F",
+            "Asset Management": "#8177B7",
+            "Operational Financial Planning": "#8177B7",
+            "Product and Service Delivery": "#F6871F",
             "Integrity Management": "#999",
             "Integration Project Management": "#66f"
         };
@@ -185,8 +185,8 @@ export class Visual implements IVisual
         //Level Line stroke width by level, so if one of the metrics in the link is an M1, make the stroke-width 3, if one is an M2, make it 2, and if it's just an M4-m3 make it 1
         var levelLineWidth =
         {
-            "M1": 3,
-            "M2": 2,
+            "M1": 5,
+            "M2": 3,
             "M3": 1,
             "M4": 1,
             "M5": 1
@@ -205,8 +205,10 @@ export class Visual implements IVisual
         var targets3 = links.map(x => new Node(x.Target, x.TLevel, x.selectionId, x.isBranch, x.TFunction));
 
         //nodesm3 is used to store concatenate data with targets and sources
-        var nodesm3 = sources3.concat(targets3.filter(function (item) {
-            return !sources3.some(function (f) {
+        var nodesm3 = sources3.concat(targets3.filter(function (item) 
+        {
+            return !sources3.some(function (f) 
+            {
                 return f.name === item.name && f.lvl === item.lvl;
             });
         }));
@@ -226,11 +228,11 @@ export class Visual implements IVisual
         //getSvgPath function is used to convert straigh lines to curve lines, this function design the path to follow for the curved line
         //Parameter: Link object
         //Return Value: string path
-        function getSvgPath(link: Link): string {
+        function getSvgPath(link: Link): string 
+        {
 
             //Property to manage curvature, we can modify the curvature of curved lines
             var curvatureOfLinks = 0.5;
-
 
             let x0: number,
                 x1: number,
@@ -243,11 +245,13 @@ export class Visual implements IVisual
             //first case, point to the right and up
             if (link.target.x < link.source.x && link.target.y > link.source.y) {
                 var distance = link.source.x - link.target.x;
-                if (distance < 40) {
+                if (distance < 40) 
+                {
                     distance = 0;
                     y0 = link.source.y + 40;
                 }
-                else {
+                else 
+                {
                     distance = 40;
                     y0 = link.source.y;
                 }
@@ -259,13 +263,16 @@ export class Visual implements IVisual
             }
 
             // second case points to the right and down
-            if (link.target.x < link.source.x && link.target.y < link.source.y) {
+            if (link.target.x < link.source.x && link.target.y < link.source.y) 
+            {
                 var distance = link.source.x - link.target.x;
-                if (distance < 40) {
+                if (distance < 40) 
+                {
                     distance = 0;
                     y0 = link.source.y - 40;
                 }
-                else {
+                else 
+                {
                     distance = 40;
                     y0 = link.source.y;
                 }
@@ -273,11 +280,11 @@ export class Visual implements IVisual
                 x0 = link.source.x - distance;
                 x1 = link.target.x;
                 y1 = link.target.y;
-
             }
 
             // third case points to the left and up
-            if (link.target.x > link.source.x && link.target.y > link.source.y) {
+            if (link.target.x > link.source.x && link.target.y > link.source.y) 
+            {
 
                 var distance = link.source.x - link.target.x;
                 if (distance < -40) {
@@ -296,7 +303,8 @@ export class Visual implements IVisual
             }
 
             // fourth case points left and down
-            if (link.target.x > link.source.x && link.target.y < link.source.y) {
+            if (link.target.x > link.source.x && link.target.y < link.source.y) 
+            {
 
                 var distance = link.source.x - link.target.x;
                 if (distance < -40) {
@@ -319,6 +327,10 @@ export class Visual implements IVisual
 
             //return points path
             return `M ${x0} ${y0} C ${x2} ${y0}, ${x3} ${y1}, ${x1} ${y1}`;
+
+            //var newy = y0-1;
+            //return `M ${x0} ${y0} L${x0},${newy} C ${x2} ${y0}, ${x3} ${y1}, ${x1} ${y1}`;
+
         }
 
         // Define the div for the tooltip
@@ -342,8 +354,9 @@ export class Visual implements IVisual
         ;
 
         //marker function is used to add triangle markers at the start position for the lines, this function is dynamic and receive the color as a parameter from the link
-        function marker(color) {
-            var val;
+        function markerStart(kop,color) 
+        {
+            //var val;
 
             svg.append("svg").append("svg:marker")
                 .attr("id", "StartTriangle" + color)
@@ -356,9 +369,34 @@ export class Visual implements IVisual
                 .append("path")
                 .attr("d", "M 0 0 L 12 5 L 0 12 z")
                 .style("fill", color);
-
+                
+             /*  svg.append("svg").append("svg:marker")
+               .attr("id", "StartTriangle" + color)
+               .attr("refX", 3)
+               .attr("refY", 8)
+               .attr("markerWidth", 13)
+               .attr("markerHeight", 13)
+               .attr("orient", "auto-start-reverse")
+               .append("path")
+               .attr("d", "M2,2 L2,13 L8,7 L2,2")
+               .style("fill", color);
+            */
+          
             return "url(#StartTriangle" + color + ")";
         }
+
+          //Start of the arrow
+         /* svg.append("svg").append("svg:marker")
+          .attr("id", "MidTriangle")
+          .attr("refX", 0.1)
+          .attr("refY", 1)
+          .attr("markerWidth", 2)
+          .attr("markerHeight", 4)
+          .attr("orient", "auto")
+          .append("path")
+          .attr("d", "M0,0 V2 L1,1 Z")
+          .style("fill", "orange")
+          ;*/
 
         //Add curve lines
         var arrowColor;
@@ -371,23 +409,50 @@ export class Visual implements IVisual
             .attr("stroke-width", function (d) { //this function is to modify stroke width line depending on the level
                 return levelLineWidth[d.source.lvl];
             })
-            .attr("class", "link")
+            //.attr("class", "link")
+            .attr("fill","none")
             .attr('stroke', function (d) { return d.color; }) //this function is to return line color
             .attr("marker-start",
                 function (d) {
-                    arrowColor = marker(d.color);
-                    return marker(d.color); //call marker function to return arrow for the line, if you need to delete just comment this lines
+                    arrowColor = markerStart(d.kop,d.color);
+                    return markerStart(d.kop,d.color); //call markerStart function to return arrow for the line, if you need to delete just comment this lines
                 })
+            //.attr("marker-mid","MidTriangle")
             ;
 
         //Add kop title in link
-        link.append("title").text(function (d) { return d.kop; });
+        //link.append("title").text(function (d) { return d.kop; });
+        
+       /* link.append("title").text(function (d) { 
+            console.log('link text', d.source.lvl);
+            return "test one";
+         });*/
+
+
+    /*     
+     //start add a basic curve line              
+     svg.append("path")
+         .attr("stroke-width", 2)
+         .attr("stroke", "black")
+         .attr("class", "link")
+         .attr("d", testM())
+         ;
+     function testM() {
+         return "M" + 80 + "," + 100               // start at the child node
+             + "C" + 80 + "," + (100 + 150) / 2    // pull the line a little upward
+             + " " + 200 + "," + (100 + 150) / 2   // pull the line a little downward
+             + " " + 200 + "," + 150;              // end at the parent node
+     }
+
+     //end add a basic curve line   
+    */
+
 
         //Get kopList from link2
         const kopList = Array.from(new Set(links2)).map(k => k.kop);
 
         //Get unique values, Just want to know what are the distinct KOP for the legend
-        var KOPLegend = kopList.filter(this.getUniqueValues);
+        var KOPLegend = kopList.filter(Visual.getUniqueValues);
 
         //Add kop title in link
         link.append("title").text(function (d) { return d.kop; });
@@ -411,17 +476,23 @@ export class Visual implements IVisual
             }
             else {
                 returnValueColor = businessWorkflows[d.func[0]];
+                if (businessWorkflows[d.func[0]] == undefined)
+                {
+                    returnValueColor = "#666666";
+                }
             }
 
             //bw is acronym of business workflow, this variable store list of values like this one: Values Sample:["TLM", "test"]
             var bw = d.func;
+            //console.log('d.func',JSON.stringify(d));
 
             //Gradient percentage shouls start in 0, this is the start position for initial color
             var gradientPercentage = 0;
             //counter variable is to handle different colors in circle
             var counter = 0;
 
-            if (bw.length > 0) {
+            if (bw.length > 0) 
+            {
                 //Dynamic quantity of colors, the gradientPercentage value is related with how many colors the circle will display
                 gradientPercentage = 100 / bw.length;
             }
@@ -440,31 +511,45 @@ export class Visual implements IVisual
                 .attr("y2", "0%");
 
             //loop using the different existing items for multicolor
-            bw.forEach(function (item) {
+            bw.forEach(function (item) 
+            {
 
                 //color of the current item depending on item.value
                 var itemColor;
 
-                if (d.isBranch) {
+                if (d.isBranch) 
+                {
                     itemColor = "#fff"; //white color in branch cases
                 }
-                else {
+                else 
+                {
                     //set color for item based on businessWorkflows color list
                     itemColor = businessWorkflows[item];
-                    if (businessWorkflows[item] == undefined) {
-                        itemColor = "#fff"; //white color in undefined cases, should not arrive this part of code, but if someone put some hard code could reach it
+                    if (businessWorkflows[item] == undefined)
+                    {
+                        itemColor = "#666666";
                     }
+                    //console.log('itemColor',item, itemColor);
                 }
 
-                var offSetValue = 0;
+                var offSetValue = 100;
                 //to handle two colors, should work using 50% for first color, and 50 for second color
-                if (bw.length == 2) {
-                    offSetValue = 50;
+                if (bw.length == 1) 
+                {
+                    offSetValue = 100;
                 }
-                else {
-                    //if does not have 2 colors, this is the dynamic calculation to handle n colors and looks good in final lineargradient
-                    offSetValue = (gradientPercentage * counter);
-                }
+                else 
+                {
+                    if (bw.length == 2) 
+                    {
+                        offSetValue = 50;
+                    }
+                    else 
+                    {
+                        //if does not have 2 colors, this is the dynamic calculation to handle n colors and looks good in final lineargradient
+                        offSetValue = (gradientPercentage * counter);
+                    }
+                }                
 
                 //we need to append a stop element by each item
                 grad.append("stop")
@@ -483,28 +568,28 @@ export class Visual implements IVisual
 
         //constant node variable, this is to handle all the information about nodes
         const node = g
-            .selectAll("circle")
-            .data(nodesm) //takes data from nodesm object
-            .join("circle")//using circles shapes
-            .attr("stroke", d => d.isBranch ? "#9ff5d6" : "#fff")
-            .attr("stroke-width", d => d.isBranch ? 3 : 1.5)
-            .attr("r", d => d.r(nodesm.length)) //Get Radio of circle
-            .attr("fill",
-                function (d) {
-                    return circleColor(d); //Multicolor function
-                })
-            .on('click', function (d) { //click event, right now is doing nothing but is prepared for future events using circle_onclick
-                console.log('click!');
-                console.log('selecting', d.selectionId);
-                selectionManager.select(d.selectionId);
-                (<Event>d3.event).stopPropagation();
-            });
-        ;
+                    .selectAll("circle")
+                    .data(nodesm) //takes data from nodesm object
+                    .join("circle")//using circles shapes
+                    .attr("stroke", d => d.isBranch ? "#9ff5d6" : "#fff")
+                    .attr("stroke-width", d => d.isBranch ? 3 : 1.5)
+                    .attr("r", d => d.r(nodesm.length)) // Get Radio of circle and set the r attribute
+                    .attr("fill",
+                        function (d) {
+                            return circleColor(d); //Multicolor function
+                        })
+                    .on('click', function (d) { //click event, right now is doing nothing but is prepared for future events using circle_onclick
+                        console.log('click!');
+                        console.log('selecting', d.selectionId);
+                        selectionManager.select(d.selectionId);
+                        (<Event>d3.event).stopPropagation();
+                    });
+                ;
 
         //Add text box in circles
         var textg = g.append("g"); //Text labels below circle
         var textg2 = g.append("g"); //Circle inside the circle
-
+       
         //Variable text to handle the node name below the circle
         var text = textg.selectAll("text")
             .data(force.nodes())
@@ -551,10 +636,26 @@ export class Visual implements IVisual
 
             //Set the text inside the circle
             .text(function (d) { 
-                console.log('testing circle value', d);
-                return "12"; //predetermined value
+                //console.log('testing circle value', d);
+                return ""; //predetermined value
             });
-            
+
+
+        //start link name
+        var textgl = g.append("g"); //Text Label Link name
+        //Variable text to handle the link name in the middle of the line
+        var textLine = textgl.selectAll("text")
+                    .data(links2)
+                    .enter().append("text")
+                    .attr("font-size",  "9px")
+                    .attr("x",0)
+                    .attr("y",0)
+                    .attr("fill","gray")
+                    //Set the link text name
+                    .text(function (d) { return d.source.lvl; });
+
+        //end link name
+
         //We call the wrap function to split the text in many records, using wrap function visually looks better because everything does not appear in the same line
         textg.selectAll("text").call(wrap, 200);
 
@@ -583,17 +684,19 @@ export class Visual implements IVisual
                 else return "circle-m5";
             })
             .on("mouseover", function (d) {
-                div.transition() //onmouseover for tooltip feature
-                    .duration(200)
-                    .style("opacity", .9);
-                //In this part we can add the tooltip information 
-                div.html("Level:" + d.lvl + "<br/>"
-                    + "" + d.name + "<br/>"
-                    + "Business Workflow:" + d.func + "<br/>"
-                    + "" + "" + "<br/>")
-                    .style("left", (d3.event.pageX) + "px")
-                    .style("top", (d3.event.pageY - 28) + "px");
-            })
+                            div.transition() //onmouseover for tooltip feature
+                                .duration(200)
+                                .style("opacity", .8);
+                            //In this part we can add the tooltip information 
+                            div.html("<br/>" 
+                                + "Level: " + d.lvl + "<br/>"
+                                + "Metric: " + d.name + "<br/>"
+                                + "Business Workflow: " + d.func + "<br/>"
+                                + "" + "" + "<br/>")
+                                .style("left", (d3.event.pageX)+ "px")
+                                .style("top", (d3.event.pageY - 28) + "px");
+                            }
+                )
             .on("mouseout", function (d) { //onmouseout for tooltip feature
                 div.transition()
                     .duration(500)
@@ -605,7 +708,9 @@ export class Visual implements IVisual
             .attr("transform", transform) //This is to add the labels below the circles
         text2
             .attr("transform", transform) //This is to add the labels in the circles
-
+        textLine
+          .attr("x", function (d) { return  ( d.source.x + d.target.x) * .5; }) // (x1 + x2) * .5 Return the corresponding position for x axis
+          .attr("y", function (d) { return  ( d.source.y + d.target.y) * .5; }); // (y1 + y2) * .5 Return the corresponding position for y axis
 
         // Add legend step 1: general size and position
         var legend = svg.append("g")
@@ -677,7 +782,6 @@ export class Visual implements IVisual
                         tspan = text.append("tspan").attr("dx", dx).attr("text-anchor", "middle").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "px").text(word);
                     }
                 }
-
             });
         }
         //transform function to set position of elements
@@ -702,8 +806,10 @@ export class Visual implements IVisual
 
         //Reset zoom
         this.g.attr("transform", "scale(1.0)");
+        
         //Reset Position
-        this.g.attr("extend", "[[0, 0], [600, 600]]");
+        //this.g.attr("extend", "[[0, 0], [600, 600]]");
+        this.g.attr("translate", "0,0");
 
     }
 
@@ -712,9 +818,15 @@ export class Visual implements IVisual
         return VisualSettings.parse(dataView) as VisualSettings;
     }
 
+    //Function to return only unique values in Array
+    private static getUniqueValues(value, index, self) 
+    {
+        return self.indexOf(value) === index;
+    }
 
     //converter function is to get selected data in power bi and fill Relationship[] array, this function is transforming data in order to push elements
-    public static converter(options: VisualUpdateOptions, host: IVisualHost): Relationship[] {
+    public static converter(options: VisualUpdateOptions, host: IVisualHost): Relationship[] 
+    {
 
         var resultData: Relationship[];
         resultData = [];
@@ -733,7 +845,7 @@ export class Visual implements IVisual
             || !options.dataViews[0].categorical.categories[5].source
             || !options.dataViews[0].categorical.categories[6].source
             || !options.dataViews[0].categorical.categories[7].source
-        )
+            )
             return resultData;
 
         //Reading power bi selected columns
@@ -743,6 +855,21 @@ export class Visual implements IVisual
         let tlevels = options.dataViews[0].categorical.categories[3].values; //Target Level names
         let kops = options.dataViews[0].categorical.categories[4].values;//KOP Name / KeyProcessName
         let branches = options.dataViews[0].categorical.categories[5].values; // Metric Branch
+        
+        //console.log('branches.length', branches.length);
+        //console.log('branches', branches);
+
+        //Get a list of the unique metric values
+        let branchesList = branches.filter(Visual.getUniqueValues);
+        //console.log('branchesList.length', branchesList.length);
+        //console.log('branchesList', branchesList);
+
+        if (branchesList.length > 1)//if branches has more than one unique values then return empty
+        {
+            resultData = [];
+            return resultData;
+            //console.log('resultData empty');//JSON.stringify(resultData)
+        }
         let sfuncs = options.dataViews[0].categorical.categories[6].values; //Source Function
         let tfuncs = options.dataViews[0].categorical.categories[7].values; //Target Function
 
@@ -756,7 +883,8 @@ export class Visual implements IVisual
         //sfuncs.push("test");
         //tfuncs.push("test");
 
-        for (let i = 0; i < rows.length; i++) {
+        for (let i = 0; i < rows.length; i++)
+        {
 
             let row = rows[i];
 
@@ -769,7 +897,8 @@ export class Visual implements IVisual
                 && item.Kop == kops[i].toString()
             );
 
-            if (resultRow.length == 0) {
+            if (resultRow.length == 0)
+            {
                 //fill result data
                 resultData.push({
                     Source: row.toString(),
@@ -785,7 +914,8 @@ export class Visual implements IVisual
                         .createSelectionId()
                 });
             }
-            else {
+            else 
+            {
                 //sfuncs
                 var sfuncRows = resultData.filter(item =>
                     item.Source == row.toString()
@@ -793,25 +923,26 @@ export class Visual implements IVisual
                     && item.Level == levels[i].toString()
                     && item.TLevel == tlevels[i].toString()
                     && item.Kop == kops[i].toString()
-                    && item.SFunction.indexOf(String(sfuncs[i])) == -1
+                    && item.SFunction.indexOf(String(sfuncs[i])
+                    ) == -1
 
                 );
-                if (sfuncRows.length > 0) {
+                if (sfuncRows.length > 0 && sfuncs[i]) 
+                {
                     resultData.find(val => val == sfuncRows[0]).SFunction.push(String(sfuncs[i]));
                 }
 
                 //tfuncs
                 var tfuncRows = resultData.filter(item =>
-                    item.Source == row.toString()
-                    && item.Target == cols[i].toString()
-                    && item.Level == levels[i].toString()
-                    && item.TLevel == tlevels[i].toString()
-                    && item.Kop == kops[i].toString()
-                    && item.TFunction.indexOf(String(tfuncs[i])) == -1
+                                                    item.Source == row.toString()
+                                                    && item.Target == cols[i].toString()
+                                                    && item.Level == levels[i].toString()
+                                                    && item.TLevel == tlevels[i].toString()
+                                                    && item.Kop == kops[i].toString()
+                                                    && item.TFunction.indexOf(String(tfuncs[i])) == -1
+                                                );
 
-                );
-
-                if (tfuncRows.length > 0) {
+                if (tfuncRows.length > 0 && tfuncs[i]) {
                     //Not In
                     resultData.find(val => val == tfuncRows[0]).TFunction.push(String(tfuncs[i]));
                 }
@@ -829,4 +960,5 @@ export class Visual implements IVisual
     public enumerateObjectInstances(options: EnumerateVisualObjectInstancesOptions): VisualObjectInstance[] | VisualObjectInstanceEnumerationObject {
         return VisualSettings.enumerateObjectInstances(this.settings || VisualSettings.getDefault(), options);
     }
+
 }
