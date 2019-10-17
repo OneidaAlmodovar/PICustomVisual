@@ -30,19 +30,35 @@ import { dataViewObjectsParser } from "powerbi-visuals-utils-dataviewutils";
 import DataViewObjectsParser = dataViewObjectsParser.DataViewObjectsParser;
 
 export class VisualSettings extends DataViewObjectsParser {
-      public dataPoint: dataPointSettings = new dataPointSettings();
-      }
 
-    export class dataPointSettings {
-     // Default color
-      public defaultColor: string = "";
-     // Show all
-      public showAllDataPoints: boolean = true;
-     // Fill
-      public fill: string = "";
-     // Color saturation
-      public fillRule: string = "";
-     // Text Size
-      public fontSize: number = 12;
-     }
+  public dataPoint: dataPointSettings = new dataPointSettings();
+
+  /** Instance of our card settings - note that the property name matches `capabilities.json` */
+  public card: CardSettings = new CardSettings();
+}
+
+
+export class dataPointSettings {
+  // Default color
+  public defaultColor: string = "";
+  // Show all
+  public showAllDataPoints: boolean = true;
+  // Fill
+  public fill: string = "";
+  // Color saturation
+  public fillRule: string = "";
+  // Text Size
+  public fontSize: number = 12;
+}
+
+/**
+*  Manages the card settings in our visual - note that property names need to match that of 
+*  `capabilities.json` in order to be included
+*/
+export class CardSettings {
+  /** Fill Colour */
+  public fillColour: string = '#ffffff';
+  /** Stroke Width */
+  public strokeWidth: number = 2;
+}
 

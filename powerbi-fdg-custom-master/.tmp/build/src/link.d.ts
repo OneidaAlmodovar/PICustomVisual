@@ -5,6 +5,7 @@ export declare class Link implements d3.SimulationLinkDatum<Node> {
     source: Node;
     target: Node;
     kop: string;
-    constructor(source: any, target: any, kop: any);
+    group: number;
+    constructor(source: any, target: any, kop: any, isBranch: any, group: any);
     readonly color: any;
 }

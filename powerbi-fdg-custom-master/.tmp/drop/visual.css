@@ -12,10 +12,10 @@ p em {
 }
 div.tooltip {
   position: absolute;
-  text-align: center;
+  text-align: left;
   width: 200px;
-  padding: 2px;
-  font: 11px Tahoma;
+  padding: 0 10px 0 20px;
+  font: 12px Tahoma;
   color: white;
   background: #333333;
   border: 3px;
@@ -24,6 +24,13 @@ div.tooltip {
   border-width: 1.5px;
   border-style: solid;
   border-color: #666666;
+}
+.menu-entry {
+  fill: whitesmoke;
+  opacity: 0.9;
+}
+.style.cursor {
+  cursor: pointer;
 }
 
 

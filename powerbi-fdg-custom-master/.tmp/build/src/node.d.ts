@@ -15,8 +15,15 @@ export declare class Node implements d3.SimulationNodeDatum {
     selectionId: ISelectionId;
     isBranch: boolean;
     func: Array<string>;
+    IsPrimaryBranch: Boolean;
+    tooltipData: Array<string>;
     scale: number;
-    constructor(name: any, lvl: any, selectionId: any, branch: any, func: any);
+    metricValue: string;
+    isRoot: number;
+    group: number;
+    selectionIdNode: ISelectionId;
+    branchSelectionId: ISelectionId;
+    constructor(name: any, lvl: any, selectionId: any, branch: any, func: any, IsPrimaryBranch: any, metricValue: any, branchSelectionId: any, tooltipData: any);
     normal: () => number;
     r(scale: any): number;
     readonly fontSize: string;

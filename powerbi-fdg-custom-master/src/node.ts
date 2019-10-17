@@ -2,6 +2,7 @@ import * as d3 from "d3";
 import powerbi from "powerbi-visuals-api";
 import ISelectionId = powerbi.extensibility.ISelectionId;
 import { selection } from "d3";
+//import IVisualHost = powerbi.extensibility.visual.IVisualHost;
 
 export class Node implements d3.SimulationNodeDatum {
   // optional - defining optional implementation properties - required for relevant typing assistance
@@ -19,14 +20,43 @@ export class Node implements d3.SimulationNodeDatum {
   selectionId: ISelectionId;
   isBranch: boolean;
   func: Array<string>;
-  scale: number;
+  IsPrimaryBranch: Boolean;
+  tooltipData: Array<string>;
 
-  constructor(name, lvl, selectionId, branch, func) {
+  scale: number;
+  metricValue: string;
+  isRoot: number;
+  group: number;
+  
+  selectionIdNode: ISelectionId;
+  branchSelectionId: ISelectionId;
+
+  // constructor(name, lvl, selectionId, branch, func, metricValue) {
+  //constructor(options, host: IVisualHost, name, lvl, selectionId, branch, func, IsPrimaryBranch,metricValue,tooltipData) {
+  constructor( name, lvl, selectionId, branch, func, IsPrimaryBranch,metricValue,branchSelectionId,tooltipData) {
     this.name = name;
     this.lvl = lvl;
     this.selectionId = selectionId;
     this.isBranch = branch == name;
     this.func = func;
+    this.IsPrimaryBranch = IsPrimaryBranch;
+    this.tooltipData = tooltipData;
+    this.metricValue = metricValue;
+
+    if (branch == name){
+      this.isRoot = 1;
+      this.group = 1;
+    }else{
+      this.isRoot = 0;
+      this.group = 0;
+    }
+
+    this.branchSelectionId = branchSelectionId;
+  /*  this.selectionIdNode = host.createSelectionIdBuilder()
+                      //.withMeasure(name)
+                      .withCategory(options.dataViews[0].categorical.categories[0], 1)
+                      .createSelectionId();*/
+
     var rnd = Math.random() * 60 - 30;
 
     var fixedvertical = 0;
@@ -54,6 +84,17 @@ export class Node implements d3.SimulationNodeDatum {
       }
 
     }
+
+    /*if (branch == name)
+    {
+      console.log('branch metric',branch, name);
+      console.log();
+      //this.fy = 30;
+      //this.x = 300;
+      //this.y = 300;
+    }
+    */
+
   }
 
   normal = () => {
@@ -73,7 +114,8 @@ export class Node implements d3.SimulationNodeDatum {
       if (Math.log(this.scale) > 30) { factor = 30 } else { factor = Math.log(this.scale) };
       branchScale = (factor / 30.0) * 2 + 1;
     }
-    return 30 * branchScale;
+    return 30;
+    //return 30 * branchScale;
 
   }
 

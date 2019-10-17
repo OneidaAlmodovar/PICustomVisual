@@ -9,38 +9,24 @@ export class Link implements d3.SimulationLinkDatum<Node> {
   source: Node;
   target: Node;
   kop: string;
+  group: number;
 
-  constructor(source, target, kop) {
+  constructor(source, target, kop, isBranch, group) {
     this.source = source;
     this.target = target;
     this.kop = kop;
-
+    if (target == isBranch){
+      this.group = 1;
+    }else{
+      this.group = 2;
+    }
+    
   }
 
   get color() {
     //let index = Math.floor(APP_CONFIG.SPECTRUM.length * this.normal());
     // return APP_CONFIG.SPECTRUM[index];
-
-
     var kopColors = {
-      /*"Logistics Management": "red",
-      "Investment and Project Management": "blue",
-      "Procure to Pay": "orange",
-      "Financial Accounting to Reporting": "green",
-      "Inventory Management and Distribution": "yellow",
-      "Supply Planning": "cyan",
-      "M&S Management and Distribution": "black",
-      "Warehouse Management": "blue",
-      "Source to Contract": "red",
-      "Sales Planning": "brown",
-      "Workforce Development and Engagement": "tan",
-      "Workforce Planning and Productivity": "darkblue",
-      "Asset Maintenance and Sustaining": "lightblue",
-      "Asset Management": "darkgreen",
-      "Operational Financial Planning": "lightgreen",
-      "Product and Service Delivery": "#9cc",
-      "Integrity Management": "#999",
-      "Integration Project Management": "#66f"*/
       "Logistics Management": "red",
       "Investment and Project Management": "blue",
       "Procure to Pay": "orange",
